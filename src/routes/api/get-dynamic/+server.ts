@@ -17,12 +17,14 @@ export async function GET() {
             cpu: 'speed, governor',
             cpuCurrentSpeed: 'avg, min, max',
             cpuTemperature: 'main',
-            mem: 'total, free, used',
-            currentLoad: 'avgLoad, currentLoad'
+            mem: 'total, available, active',
+            currentLoad: 'currentLoad',
+            networkInterfaces: 'speed, operstate',
         });
         return json(data);
     } 
-    catch (error){
+    catch (error) {
+        console.error("Error fetching data:", error);
         return json({ error }, { status: 500 });
     }
 }

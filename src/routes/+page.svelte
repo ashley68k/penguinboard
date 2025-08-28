@@ -3,27 +3,29 @@
 
 	import CpuPanel from '$lib/Panels/CPUPanel.svelte';
 	import MemPanel from '$lib/Panels/MemPanel.svelte';
-	import DiskPanel from '$lib/Panels/DiskPanel.svelte';
 	import NetworkPanel from '$lib/Panels/NetworkPanel.svelte';
-    import ProcessPanel from '$lib/Panels/ProcessPanel.svelte';
+    import SystemPanel from '$lib/Panels/SystemPanel.svelte';
+	import PartitionPanel from '$lib/Panels/PartitionPanel.svelte';
 
     // Get dynamic and static data separately, no reason to continually query data which doesn't change.
     // si.getStaticData and getDynamicData are unsuitable as they return all data at once.
     // Therefore, for the static and dynamic endpoints, use the standard si.get() with caution.
 
-    let dynInfo: any = null;
-    let statInfo: any = null;
+    let info: { dynamic: any, static: any } = { 
+        dynamic: null,
+        static: null
+    };
 
     let refreshInterval = 5 * 1000;
 
 	async function fetchDynamic() {
 		const dynamicInfo = await fetch('/api/get-dynamic');
-		dynInfo = await dynamicInfo.json();
+		info.dynamic = await dynamicInfo.json();
 	}
 
     async function fetchStatic() {
 		const staticInfo = await fetch('/api/get-static');
-		statInfo = await staticInfo.json();
+		info.static = await staticInfo.json();
 	}
 
 	onMount(() => {
@@ -54,12 +56,24 @@
 
     <main class="flex flex-row flex-wrap gap-4 justify-center">
         <!--both start null while waiting for API, so you need to ensure both are initialized before displaying panels-->
-        {#if dynInfo && statInfo}
-            <CpuPanel {dynInfo} {statInfo}/> 
-            <MemPanel {dynInfo} {statInfo}/>
-            <DiskPanel {dynInfo} {statInfo}/>
-            <NetworkPanel {dynInfo} {statInfo}/>
-            <ProcessPanel {dynInfo} {statInfo}/>
+        {#if info.dynamic && info.static}
+            <CpuPanel {info}/> 
+            <MemPanel {info}/>
+            <SystemPanel {info}/>
+
+            {#each [...info.static.fsSize].sort((a, b) => a.fs.localeCompare(b.fs)) as fileSys, idx}
+                {#if fileSys.fs != "efivarfs"}
+                    <PartitionPanel fs={fileSys} name='Partition #{idx+1}'/>
+                {/if}
+            {/each}
+
+            {#each { length: info.static.networkInterfaces.length }, idx}
+                <NetworkPanel staticIFace={info.static.networkInterfaces[idx]}
+                            dynamicIFace={info.dynamic.networkInterfaces[idx]}
+                            name={`Network ${idx + 1}`}/>
+            {/each}
+
+
         {/if}
     </main>
 

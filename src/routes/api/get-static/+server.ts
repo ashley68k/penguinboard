@@ -15,10 +15,15 @@ export async function GET() {
     try {
         const data = await si.get({
             cpu: 'manufacturer, brand, cores, physicalCores',
+            networkInterfaces: 'iface, ip4, ip4subnet, ip6, ip6subnet, duplex, type, operstate, speed',
+            memLayout: 'type, ecc, clockspeed, formFactor, voltageConfigured',
+            fsSize: 'fs, type, size, used, available, mount',
+            osInfo: 'kernel, release, arch, hostname, uefi, logofile'
         });
         return json(data);
     } 
-    catch (error){
+    catch (error) {
+        console.error("Error fetching data:", error);
         return json({ error }, { status: 500 });
     }
 }
