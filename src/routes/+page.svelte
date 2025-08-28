@@ -1,8 +1,11 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-	import InfoPanel from "$lib/InfoPanel.svelte";
-	import InfoRow from "$lib/InfoRow.svelte";
-	import { NormalizeCPUModel } from '$lib/utils/normalizeData';
+
+	import CpuPanel from '$lib/Panels/CPUPanel.svelte';
+	import MemPanel from '$lib/Panels/MemPanel.svelte';
+	import DiskPanel from '$lib/Panels/DiskPanel.svelte';
+	import NetworkPanel from '$lib/Panels/NetworkPanel.svelte';
+    import ProcessPanel from '$lib/Panels/ProcessPanel.svelte';
 
     // Get dynamic and static data separately, no reason to continually query data which doesn't change.
     // si.getStaticData and getDynamicData are unsuitable as they return all data at once.
@@ -52,31 +55,11 @@
     <main class="flex flex-row flex-wrap gap-4 justify-center">
         <!--both start null while waiting for API, so you need to ensure both are initialized before displaying panels-->
         {#if dynInfo && statInfo}
-            <InfoPanel panelName="CPU">
-                <InfoRow dataLabel="Model:" dataValue='{NormalizeCPUModel(statInfo.cpu.manufacturer, statInfo.cpu.brand)}'/>
-                <br>
-                <InfoRow dataLabel="Base Clock:" dataValue='{dynInfo.cpu.speed} GHz'/>
-                <InfoRow dataLabel="Min/Avg/Max Freq:" dataValue='{dynInfo.cpuCurrentSpeed.min.toFixed(2)} | {dynInfo.cpuCurrentSpeed.avg.toFixed(2)} | {dynInfo.cpuCurrentSpeed.max.toFixed(2)} GHz'/>
-                <br>
-                <InfoRow dataLabel="Current Temperature:" dataValue='{dynInfo.cpuTemperature.main} °C'/>
-                <br>
-                <InfoRow dataLabel="Cores:" dataValue={statInfo.cpu.physicalCores}/>
-                <InfoRow dataLabel="Threads:" dataValue={statInfo.cpu.cores}/>
-                <InfoRow dataLabel="Scaling Governor:" dataValue={dynInfo.cpu.governor}/>
-            </InfoPanel>
-            <InfoPanel panelName="Memory">
-                <InfoRow dataLabel="Total Memory:" dataValue='{(dynInfo.mem.total / 1024 / 1024 / 1024).toFixed(2)} GiB'/>
-                <InfoRow dataLabel="Free Memory:" dataValue='{(dynInfo.mem.free / 1024 / 1024 / 1024).toFixed(2)} GiB'/>
-                <InfoRow dataLabel="Used Memory:" dataValue='{(dynInfo.mem.used / 1024 / 1024 / 1024).toFixed(2)} GiB'/>
-            </InfoPanel>
-            <InfoPanel panelName="Disk">
-            </InfoPanel>
-            <InfoPanel panelName="Network">
-                
-            </InfoPanel>
-            <InfoPanel panelName="Processes">
-                
-            </InfoPanel>
+            <CpuPanel {dynInfo} {statInfo}/> 
+            <MemPanel {dynInfo} {statInfo}/>
+            <DiskPanel {dynInfo} {statInfo}/>
+            <NetworkPanel {dynInfo} {statInfo}/>
+            <ProcessPanel {dynInfo} {statInfo}/>
         {/if}
     </main>
 
