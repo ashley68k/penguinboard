@@ -5,7 +5,7 @@
 <div class="bg-gray-50 dark:bg-gray-800 
             rounded-t-md m-8 p-2 
             flex flex-col justify-between items-center
-            min-w-[32rem] max-w-sm 
+            min-w-[36rem] max-w-[48rem]
             border border-gray-100 dark:border-gray-700
             text-black dark:text-white">
     <header class="w-full bg-gray-100 dark:bg-gray-700 border-b
