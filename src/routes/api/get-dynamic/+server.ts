@@ -3,6 +3,10 @@ import si from 'systeminformation';
 
 export async function GET() {
     /* 
+        Dynamic system-info endpoint.
+
+        Only return data-points which either continually change or can be changed by system administrator during runtime.
+
         https://systeminformation.io/#docs
 
         si.get() takes an object with the function name as key and desired properties as a comma-separated string.
@@ -10,7 +14,7 @@ export async function GET() {
     */
     try {
         const data = await si.get({
-            cpu: 'manufacturer, brand, cores, physicalCores, speed, governor',
+            cpu: 'speed, governor',
             cpuCurrentSpeed: 'avg, min, max',
             cpuTemperature: 'main',
             mem: 'total, free, used',

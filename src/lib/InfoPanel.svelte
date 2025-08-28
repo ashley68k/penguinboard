@@ -4,7 +4,7 @@
 
 <div class="bg-gray-50 dark:bg-gray-800 
             rounded-t-md m-8 p-2 
-            flex flex-col justify-between items-center
+            flex flex-col justify-start items-center
             min-w-[36rem] max-w-[48rem]
             border border-gray-100 dark:border-gray-700
             text-black dark:text-white">
