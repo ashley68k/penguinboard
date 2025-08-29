@@ -19,7 +19,6 @@ export async function GET() {
             cpuTemperature: 'main',
             mem: 'total, available, active',
             currentLoad: 'currentLoad',
-            networkInterfaces: 'speed, operstate',
         });
         return json(data);
     } 

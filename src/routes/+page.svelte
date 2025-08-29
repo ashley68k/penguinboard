@@ -67,13 +67,9 @@
                 {/if}
             {/each}
 
-            {#each { length: info.static.networkInterfaces.length }, idx}
-                <NetworkPanel staticIFace={info.static.networkInterfaces[idx]}
-                            dynamicIFace={info.dynamic.networkInterfaces[idx]}
-                            name={`Network ${idx + 1}`}/>
+            {#each info.static.networkInterfaces as iface, idx}
+                <NetworkPanel {iface} name='Interface #{idx+1}'/>
             {/each}
-
-
         {/if}
     </main>
 

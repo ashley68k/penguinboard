@@ -3,22 +3,19 @@
     import InfoPanel from "$lib/InfoPanel.svelte";
     import InfoRow from "$lib/InfoRow.svelte";
 
-    export let staticIFace: any = null;
-    export let dynamicIFace: any = null;
+    export let iface: any = null;
 
     export let name: string;
 </script>
 
 <InfoPanel panelName={name}>
-    <InfoRow dataLabel="Interface Name:" dataValue='{staticIFace.iface}'/>
+    <InfoRow dataLabel="Interface Name:" dataValue='{iface.iface}'/>
     <br>
-    <InfoRow dataLabel="IPv4:" dataValue='{staticIFace.ip4}'/>
-    <InfoRow dataLabel="IPv4 Subnet:" dataValue='{staticIFace.ip4subnet}'/>
-    <InfoRow dataLabel="IPv6:" dataValue='{staticIFace.ip6}'/>
-    <InfoRow dataLabel="IPv6 Subnet:" dataValue='{staticIFace.ip6subnet}'/>
+    <InfoRow dataLabel="IPv4:" dataValue='{iface.ip4}'/>
+    <InfoRow dataLabel="IPv4 Subnet:" dataValue='{iface.ip4subnet}'/>
     <br>
-    <InfoRow dataLabel="Duplex:" dataValue='{staticIFace.duplex}'/>
-    <InfoRow dataLabel="Type:" dataValue='{staticIFace.type}'/>
-    <InfoRow dataLabel="Speed:" dataValue='{dynamicIFace.speed}'/>
-    <InfoRow dataLabel="State:" dataValue='{dynamicIFace.operstate}'/>
+    <InfoRow dataLabel="Duplex:" dataValue='{iface.duplex}'/>
+    <InfoRow dataLabel="Type:" dataValue='{iface.type}'/>
+    <InfoRow dataLabel="Speed:" dataValue='{iface.speed}'/>
+    <InfoRow dataLabel="State:" dataValue='{iface.operstate}'/>
 </InfoPanel>
